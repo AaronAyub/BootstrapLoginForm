@@ -15,3 +15,8 @@
     position: absolute;
     /* font-size: small; */
 }
+
+/* Hide the registration screen by default*/
+#register {
+    display: none;
+}
