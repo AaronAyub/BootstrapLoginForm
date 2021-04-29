@@ -1,0 +1,17 @@
+.navbar {
+    margin-bottom: 3rem;
+}
+
+.form-group {
+    margin:1rem;
+}
+
+.btn {
+    margin-left:1rem;
+}
+
+.footer {
+    bottom: 0px;
+    position: absolute;
+    /* font-size: small; */
+}
