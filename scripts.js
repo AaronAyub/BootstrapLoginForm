@@ -9,3 +9,5 @@ function toggleView(show) {
         document.getElementById("register").style.display="block";
     }
 }
+
+mysqli_connect('localhost', 'user', 'password', 'loginform');
