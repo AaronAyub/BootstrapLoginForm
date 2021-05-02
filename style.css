@@ -16,7 +16,12 @@
     /* font-size: small; */
 }
 
-/* Hide the registration screen by default*/
+/* Hide the registration screen by default */
 #register {
+    display: none;
+}
+
+/* Likewise, hide the "Change Settings" Screen */
+#change {
     display: none;
 }
