@@ -28,9 +28,33 @@
 
     if (isset($_POST['login'])) {
         fwrite($log,"Login request.\n");
-    }
+        if (empty($_POST['username'])) {
+            $output = $output . "Please enter a username!";
+        }
+        else if (empty($_POST['password'])) {
+            $output = $output . "Please enter a password!";
+        }
+        else {
+            $username = $_POST['username'];
+            $password = $_POST['password'];
 
-    if (isset($_POST['register'])) {
+            $query = "SELECT pass FROM users WHERE username='$username'";
+            $query = $connection->query($query);
+            if ($query->num_rows == 1) {
+                $user = $query->fetch_assoc();
+                if (password_verify($password,$user["pass"])) {
+                    $output = "Successfully logged in.";
+                }
+                else {
+                    $output = "Incorrect password.";
+                }
+            }
+            else {
+                $output = "No such user exists.";
+            }
+        }
+    }
+    else if (isset($_POST['register'])) {
         fwrite($log,"Registration request.\n");
         if (empty($_POST['username'])) {
             $output = $output . "Please enter a username!";
@@ -53,8 +77,8 @@
             $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
             $add = "INSERT INTO users (username, email, pass)
             VALUES ('$username', '$email', '$password')";
-            $dup = "SELECT username FROM users WHERE username='$username'";
-            $query = $connection->query($dup);
+            $query = "SELECT username FROM users WHERE username='$username'";
+            $query = $connection->query($query);
             if ($query->num_rows > 0) {
                 $output = "Sorry, the username $username is already taken!";
             }
@@ -86,7 +110,6 @@
     <body>
         <nav class="navbar navbar-expand-sm bg-dark text-white text-center justify-content-center">
             Login Form<br>
-            Aaron Ayub
         </nav>
         <div class="container">
             <div class="card bg-light">
