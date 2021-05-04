@@ -14,7 +14,16 @@ function toggleView(show) {
     }
 }
 
+// Display outputs messages, if any exist
+if (typeof outputMessage !== "undefined") {  
+    box = document.getElementById("outputbox");
+    box.innerText=outputMessage;
+    if (outputType == "success") {
+        box.classList.add("success");
+    }
+}
+
 // Automatically show the change user settings field if the user is logged in.
-if (loggedIn) {
+if (typeof loggedIn !== "undefined") {
     toggleView(2);
 }

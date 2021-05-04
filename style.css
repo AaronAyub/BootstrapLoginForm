@@ -25,3 +25,15 @@
 #change {
     display: none;
 }
+
+#outputbox {
+    background-color: #ffc8c8; /* By default, the colour used is for errors*/
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    padding-bottom: 0.2rem;
+    padding-left: 1.5rem; /* Align the output text with the forms. */
+}
+
+#outputbox.success {
+    background-color: #bcffbc; /* Use a different colour on successes */
+}
