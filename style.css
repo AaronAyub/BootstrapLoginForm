@@ -1,5 +1,6 @@
 .navbar {
     margin-bottom: 3rem;
+    justify-content: center;
 }
 
 .form-group {
@@ -13,6 +14,7 @@
 .footer {
     bottom: 0px;
     position: absolute;
+    width:100%;
     /* font-size: small; */
 }
 

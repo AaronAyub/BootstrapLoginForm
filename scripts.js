@@ -27,4 +27,6 @@ if (typeof outputMessage !== "undefined") {
 // Automatically show the change user settings field if the user is logged in.
 if (typeof loggedIn !== "undefined") {
     toggleView(2);
+    document.getElementById("settingsName").innerText = "Welcome, " + username;
 }
+

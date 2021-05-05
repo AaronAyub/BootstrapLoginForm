@@ -8,8 +8,12 @@
         <link rel="stylesheet" type="text/css" href="style.css"/>
     </head>
     <body>
-        <nav class="navbar navbar-expand-sm bg-dark text-white text-center justify-content-center">
-            User Panel<br>
+        <nav class="navbar bg-dark text-white text-center">
+            <div>User Panel</div>
+            
+            <!-- <form method="post">
+                <button type="submit" name="logout" style="background: none; border: none; color: white;">Log Out</button>
+            </form> -->
         </nav>
         <div class="container">
             <div id="outputbox"></div>
@@ -18,7 +22,7 @@
                     <div id="change">
                         <form method="post">
                             <div class="container text-center">
-                                <h3>User Settings</h3>
+                                <h3 id="settingsName">User Settings</h3>
                             </div>
                             <hr>
                             <div class="container text-center">

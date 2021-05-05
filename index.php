@@ -178,6 +178,7 @@
     // If the user is logged in through a session variable, use javascript to display the correct form.
     if (!empty($_SESSION['user'])) {
         echo "<script>let loggedIn = true;</script>";
+        echo "<script>let username = \"".$_SESSION['user']."\";</script>";
     }
 
     $connection->close();
