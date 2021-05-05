@@ -27,6 +27,7 @@
 }
 
 #outputbox {
+    display: none; /* Hide the output box by default*/
     background-color: #ffc8c8; /* By default, the colour used is for errors*/
     border-radius: 5px;
     margin-bottom: 1rem;

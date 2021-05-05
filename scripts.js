@@ -17,8 +17,9 @@ function toggleView(show) {
 // Display outputs messages, if any exist
 if (typeof outputMessage !== "undefined") {  
     box = document.getElementById("outputbox");
+    box.style.display = "block"; // Show the output box
     box.innerText=outputMessage;
-    if (outputType == "success") {
+    if (outputType == "success") { // Colour it green for successful operations
         box.classList.add("success");
     }
 }
