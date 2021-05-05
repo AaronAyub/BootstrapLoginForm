@@ -1,7 +1,6 @@
 <!-- Scripts running at the start of every page-->
 <?php
     // Connecting to database
-    session_start();
     $log = fopen("php://stdout", "w");
     $connection = new mysqli('localhost', 'user', 'password');
     if ($connection->connect_error) {

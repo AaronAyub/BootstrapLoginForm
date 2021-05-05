@@ -18,16 +18,6 @@
     /* font-size: small; */
 }
 
-/* Hide the registration screen by default */
-#register {
-    display: none;
-}
-
-/* Likewise, hide the "Change Settings" Screen */
-#change {
-    display: none;
-}
-
 #outputbox {
     display: none; /* Hide the output box by default*/
     background-color: #ffc8c8; /* By default, the colour used is for errors*/
