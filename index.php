@@ -2,29 +2,11 @@
     // Connecting to database
     session_start();
     $log = fopen("php://stdout", "w");
-    $connection = new mysqli('localhost', 'user', 'password');
+    $connection = new mysqli('localhost', 'user', 'password','loginForm');
     if ($connection->connect_error) {
         die("Connection unsuccessful!" . $connection->connect_error);
     }
     fwrite($log,"Connection successful.\n");
-    
-    // Creating the database and tables if they don't already exist
-    $database = "CREATE DATABASE loginForm";
-    if ($connection->query($database) === TRUE) {
-        fwrite($log,"Database created.\n");
-    } else {
-        fwrite($log,mysqli_error($connection)."\n");
-    }
-    $connection->query("USE loginForm");
-    $users = "CREATE TABLE users (
-        username VARCHAR(50) NOT NULL PRIMARY KEY,
-        email VARCHAR(80) NOT NULL,
-        pass VARCHAR(128) NOT NULL,
-        registered TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )";
-    if ($connection->query($users) === TRUE) {
-        fwrite($log,"User table created.\n");
-    }
 
     $output = ""; // Output is the message to send to the user, if any.
     $outputType = "error"; // This is changed to "success" if the user successfully performs an operation.
@@ -182,6 +164,7 @@
     }
 
     $connection->close();
-
-    include 'index.html';
 ?>
+<?php include 'header.php'?>
+<?php include 'public/index.html'?>
+<?php include 'public/footer.html'?>

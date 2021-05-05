@@ -1,0 +1,112 @@
+<div class="container">
+    <div id="outputbox"></div>
+    <div class="card bg-light">
+        <div class="card-body">
+            <div id="change">
+                <form method="post">
+                    <div class="container text-center">
+                        <h3 id="settingsName">User Settings</h3>
+                    </div>
+                    <hr>
+                    <div class="container text-center">
+                        <h5>Change Email Address</h5>
+                    </div>
+                    <div class="form-group">
+                        <label for="newemail">New Email Address: </label>
+                        <input required type="email" name="newemail" id="newemail" class="form-control"
+                            placeholder="Email Address">
+                    </div>
+                    <button type="submit" name="changeemail" class="btn btn-primary">Change Email</button>
+                </form>
+                <hr>
+                <div class="container text-center">
+                    <h5>Change Password</h5>
+                </div>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="oldpass">Previous Password: </label>
+                        <input required type="password" name="oldpass" id="oldpass" class="form-control"
+                            placeholder="Previous Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="newpass">New Password: </label>
+                        <input required minlength="6" type="password" name="newpass" id="newpass" class="form-control"
+                            placeholder="New Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="newconfirm">Confirm New Password: </label>
+                        <input required type="password" name="newconfirm" id="newconfirm" class="form-control"
+                            placeholder="Confirm New Password">
+                    </div>
+                    <button type="submit" name="changepass" class="btn btn-primary">Change Password</button>
+                </form>
+                <hr>
+                <form method="post">
+                    <button type="submit" name="logout" class="btn btn-secondary">Log Out</button>
+                </form>
+            </div>
+            <form id="login" method="post">
+                <div class="container text-center">
+                    <h3>Login</h3>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username: </label>
+                    <input required type="text" name="username" id="username" class="form-control"
+                        placeholder="Your Username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password: </label>
+                    <input required type="password" name="password" id="password" class="form-control"
+                        placeholder="Your Password">
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="hide" class="form-check-input" id="hide">
+                    <label class="form-check-label" for="hide">Hide my online status</label>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="remember" class="form-check-input" id="remember">
+                    <label class="form-check-label" for="remember">Remember me</label>
+                </div>
+                <button type="submit" name="login" class="btn btn-primary">Login</button>
+                <button class="btn btn-secondary" onclick="toggleView(1)">Sign Up</button>
+            </form>
+
+            <form id="register" method="post">
+                <div class="container text-center">
+                    <h3>Register</h3>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username: </label>
+                    <input required type="text" name="username" id="username" class="form-control"
+                        placeholder="Your Username">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input required type="email" name="email" id="email" class="form-control"
+                        placeholder="Your Email Address">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password: </label>
+                    <input required minlength="6" name="password" type="password" id="password" class="form-control"
+                        placeholder="Your Password">
+                </div>
+                <div class="form-group">
+                    <label for="confirm">Confirm Password: </label>
+                    <input required type="password" name="confirm" id="confirm" class="form-control"
+                        placeholder="Confirm Password">
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="subscribe" class="form-check-input" id="newsletter">
+                    <label class="form-check-label" for="newsletter">Subscribe to the newsletter (Optional)</label>
+                </div>
+                <div class="form-group form-check">
+                    <input required type="checkbox" name="readTerms" class="form-check-input" id="conditions">
+                    <label class="form-check-label" for="conditions">I have read and agree to the Terms and
+                        Conditions</label>
+                </div>
+                <button type="submit" name="register" class="btn btn-primary">Register</button>
+                <button class="btn btn-secondary" onclick="toggleView(0)">Log In</button>
+            </form>
+        </div>
+    </div>
+</div>
