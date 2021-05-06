@@ -1,6 +1,9 @@
 .navbar {
+    display: flex;
     margin-bottom: 3rem;
-    justify-content: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    justify-content: space-between;
 }
 
 .form-group {

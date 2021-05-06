@@ -42,7 +42,24 @@
         <nav class="navbar bg-dark text-white text-center">
             <div>User Panel</div>
             
-            <!-- <form method="post">
-                <button type="submit" name="logout" style="background: none; border: none; color: white;">Log Out</button>
-            </form> -->
+            <!-- This div switches between the login/logout button in the header-->
+            <div>
+            <?php
+            if (isset($_SESSION['user'])) { // If the user is logged in, let them quickly log out
+                echo <<< EOT
+                <form method="post" action="index.php">
+                    <button type="submit" name="logout" style="background: none; border: none; color: white;">Log Out</button>
+                </form>
+                EOT;
+            }
+            else { // Otherwise, let them quickly log in
+                // A form is used instead of to make the buttons appear identical.
+                echo <<< EOT
+                <form method="get" action="index.php">
+                    <button type="submit" style="background: none; border: none; color: white;">Log In</button>
+                </form>
+                EOT;
+            }
+            ?>
+            </div>
         </nav>
