@@ -15,9 +15,4 @@
         unset($_SESSION['output']);
         unset($_SESSION['outputType']);
     }
-
-    // If the user is logged in through a session variable, use javascript to display the correct form.
-    if (!empty($_SESSION['user'])) {
-        echo "<script>showName(\"".$_SESSION['user']."\")</script>";
-    }
 ?>
