@@ -2,11 +2,8 @@
     // Connecting to database
     session_start();
     $log = fopen("php://stdout", "w");
-    $connection = new mysqli('localhost', 'user', 'password','loginForm');
-    if ($connection->connect_error) {
-        die("Connection unsuccessful!" . $connection->connect_error);
-    }
-    fwrite($log,"Connection successful.\n");
+    include 'phpUtils.php';
+    $connection = connect();
 
     // User registers for a new account
     if (isset($_POST['register'])) {
