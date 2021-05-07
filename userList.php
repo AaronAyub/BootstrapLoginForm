@@ -17,6 +17,9 @@
             <thead>
                 <tr>
                     <th scope="col">Username</th>
+                    <th>Real Name</th>
+                    <th>Location</th>
+                    <th>Occupation</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +28,9 @@
         while ($user = $query->fetch_assoc()) {
             echo "<tr>";
             echo "<td scope=\"row\">".$user["username"]."</td>";
+            echo "<td>".$user["firstname"]." ".$user["lastname"]."</td>";
+            echo "<td>".$user["loc"]."</td>";
+            echo "<td>".$user["job"]."</td>";
             echo "</tr>";
         }
         echo "</tbody>";

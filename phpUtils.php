@@ -30,6 +30,10 @@ function initializeDatabase($log) {
         username VARCHAR(50) NOT NULL PRIMARY KEY,
         email VARCHAR(80) NOT NULL,
         pass VARCHAR(128) NOT NULL,
+        firstname VARCHAR(80) DEFAULT '',
+        lastname VARCHAR(80) DEFAULT '',
+        loc VARCHAR(80) DEFAULT '',
+        job VARCHAR(80) DEFAULT '',
         registered TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
     if ($connection->query($users) === TRUE) {

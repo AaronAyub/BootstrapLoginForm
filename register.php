@@ -36,6 +36,7 @@
             else if ($connection->query($add) === TRUE) {
                 $_SESSION['output'] = "User successfully added!";
                 $_SESSION['outputType'] = "success";
+                $_SESSION['user'] = $username;
                 $connection->close();
                 header('Location: settings.php');
             }

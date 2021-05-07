@@ -7,10 +7,7 @@
 
     // User changes the account's email
     if (isset($_POST['changeemail'])) {
-        if (empty($_SESSION['user'])) {
-            $_SESSION['output'] = "You shouldn't be accessing this form unless you are logged in.";
-        }
-        else if (empty($_POST['newemail'])) {
+        if (empty($_POST['newemail'])) {
             $_SESSION['output'] = "Please enter a new email address to change your email.";
         }
         else {
@@ -32,10 +29,7 @@
     }
     // User changes the account's password
     else if (isset($_POST['changepass'])) {
-        if (empty($_SESSION['user'])) {
-            $_SESSION['output'] = "You shouldn't be accessing this form unless you are logged in.";
-        }
-        else if (empty($_POST['oldpass']) || empty($_POST['newpass']) || empty($_POST['newconfirm'])) {
+        if (empty($_POST['oldpass']) || empty($_POST['newpass']) || empty($_POST['newconfirm'])) {
             $_SESSION['output'] = "Please fill out all the fields to change your password.";
         }
         else {
@@ -69,17 +63,80 @@
             }
         }
     }
+    // User updates public details
+    else if (isset($_POST['updateProfile'])) {
+        $firstname = $_POST['firstname'];
+        $lastname = $_POST['lastname'];
+        $loc = $_POST['loc'];
+        $job = $_POST['job'];
+        $username = $_SESSION['user'];
+
+        $query = "UPDATE users SET
+        firstname='$firstname', lastname='$lastname', loc='$loc', job='$job'
+        WHERE username='$username'";
+        $query = $connection->query($query);
+        $_SESSION['output'] = "Profile updated!";
+        $_SESSION['outputType'] = "success";
+    }
+
+    // Return details of the user's profile, so they can enter only the information that needs to be changed.
+    $username = $_SESSION['user'];
+    $query = "SELECT * FROM users WHERE username='$username'";
+    $query = $connection->query($query);
+    if ($query->num_rows == 0) {
+        $_SESSION['output'] = "You shouldn't be accessing this form unless you are logged in.";
+    }
+    else {
+        $user = $query->fetch_assoc();
+        $firstname = $user['firstname'];
+        $lastname = $user['lastname'];
+        $loc = $user['loc'];
+        $job = $user['job'];
+    }
+
     $connection->close();
 ?>
 <?php include 'header.php'?>
 <div class="container">
     <div id="outputbox"></div>
     <div class="card bg-light">
-        <div class="card-body">
-            <div id="change">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="profileTab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Profile</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="emailPassTab" data-bs-toggle="tab" data-bs-target="#emailPass" type="button" role="tab" aria-controls="emailPass" aria-selected="false">Email / Password</button>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="card-body tab-pane show active fade" id="profile" role="tabpanel" aria-labelledby="profileTab">
                 <form method="post">
                     <div class="container text-center">
-                        <h3 id="settingsName">User Settings</h3>
+                        <h3>Profile</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname">First Name</label>
+                        <input type="text" name="firstname" id="firstname" class ="form-control" placeholder="(Optional)">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" name="lastname" id="lastname" class ="form-control" placeholder="(Optional)">
+                    </div>
+                    <div class="form-group">
+                        <label for="loc">Location</label>
+                        <input type="text" name="loc" id="loc" class ="form-control" placeholder="(Optional)">
+                    </div>
+                    <div class="form-group">
+                        <label for="job">Occupation</label>
+                        <input type="text" name="job" id="job" class ="form-control" placeholder="(Optional)">
+                    </div>
+                    <button type="submit" name="updateProfile" class="btn btn-primary">Update Profile</button>
+                </form>
+            </div>
+            <div class="card-body tab-pane fade" id="emailPass" role="tabpanel" aria-labelledby="emailPassTab">
+                <form method="post">
+                    <div class="container text-center">
+                        <h3>User Settings</h3>
                     </div>
                     <hr>
                     <div class="container text-center">
@@ -113,18 +170,19 @@
                     </div>
                     <button type="submit" name="changepass" class="btn btn-primary">Change Password</button>
                 </form>
-                <hr>
-                <form method="post" action="index.php">
-                    <button type="submit" name="logout" class="btn btn-secondary">Log Out</button>
-                </form>
             </div>
         </div>
+        <hr>
+        <form method="post" action="index.php" style="margin-left: 1rem; margin-bottom: 1rem;">
+            <button type="submit" name="logout" class="btn btn-secondary">Log Out</button>
+        </form>
     </div>
 </div>
 <?php include 'footer.php'?>
 <?php
-// If the user is logged in through a session variable, use javascript to display the correct form.
-if (!empty($_SESSION['user'])) {
-    echo "<script>showName(\"".$_SESSION['user']."\")</script>";
-}
+// Automatically re-enter previous profile details into the form
+echo "<script>document.getElementById(\"firstname\").value = \"".$firstname."\";</script>";
+echo "<script>document.getElementById(\"lastname\").value = \"".$lastname."\";</script>";
+echo "<script>document.getElementById(\"loc\").value = \"".$loc."\";</script>";
+echo "<script>document.getElementById(\"job\").value = \"".$job."\";</script>";
 ?>

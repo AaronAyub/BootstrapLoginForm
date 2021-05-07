@@ -10,12 +10,18 @@
     </head>
     <body>
         <nav class="navbar bg-dark text-white text-center">
-            <div>User Panel</div>
-            
             <div>
             <a href="userList.php">User List</a>
             </div>
-
+            
+            <div id="nav-right">
+            <div>
+                <?php
+                if (isset($_SESSION['user'])) {
+                    echo "<a href=\"settings.php\">Your Profile</a>";
+                }
+                ?>
+            </div>
             <!-- This div switches between the login/logout button in the header-->
             <div>
             <?php
@@ -35,5 +41,6 @@
                 EOT;
             }
             ?>
+            </div>
             </div>
         </nav>
