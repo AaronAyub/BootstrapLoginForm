@@ -6,6 +6,11 @@
     justify-content: space-between;
 }
 
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
 .form-group {
     margin:1rem;
 }

@@ -12,6 +12,10 @@
         <nav class="navbar bg-dark text-white text-center">
             <div>User Panel</div>
             
+            <div>
+            <a href="userList.php">User List</a>
+            </div>
+
             <!-- This div switches between the login/logout button in the header-->
             <div>
             <?php

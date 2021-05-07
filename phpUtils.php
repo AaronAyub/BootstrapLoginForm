@@ -8,9 +8,9 @@ $password = 'password';
 $log = fopen("php://stdout", "w"); // Use $log to display feedback
 
 // This function creates the database used for this program (if not already existing)
-function initializeDatabase($hostname,$user,$password,$log) {
+function initializeDatabase($log) {
     // Connect to the database
-    $connection = new mysqli($hostname, $user, $password);
+    $connection = new mysqli($GLOBALS['hostname'], $GLOBALS['user'], $GLOBALS['password']);
     if ($connection->connect_error) {
         die("Connection unsuccessful!" . $connection->connect_error);
     }
@@ -38,24 +38,6 @@ function initializeDatabase($hostname,$user,$password,$log) {
     $connection->close();
 }
 
-// This function deletes the database and recreates it, essentially resetting all the data
-function resetDatabase($hostname,$user,$password,$log) {
-    // Connect to the database
-    $connection = new mysqli($hostname, $user, $password);
-    if ($connection->connect_error) {
-        die("Connection unsuccessful!" . $connection->connect_error);
-    }
-    fwrite($log,"Connection successful.\n");
-
-    $connection->query("DROP DATABASE IF EXISTS loginForm");
-    if ($connection) {
-        fwrite($log,"Dropped database successfully.\n");
-    }
-
-    // And recreate the database
-    initializeDatabase($hostname,$user,$password,$log);
-}
-
 // Returns a connection to the database
 function connect() {
     $connection = new mysqli($GLOBALS['hostname'], $GLOBALS['user'], $GLOBALS['password'], "loginForm");
@@ -66,11 +48,27 @@ function connect() {
     return $connection;
 }
 
+// This function deletes the database and recreates it, essentially resetting all the data
+function resetDatabase($log) {
+    // Connect to the database
+    $connection = connect();
+
+    $connection->query("DROP DATABASE IF EXISTS loginForm");
+    if ($connection) {
+        fwrite($log,"Dropped database successfully.\n");
+    }
+
+    $connection->close();
+
+    // And recreate the database
+    initializeDatabase($log);
+}
+
 // If the user runs this script directly from the terminal with no arguments, assume they want to start the database
 if (isset($argc) && $argc < 2) {
-    initializeDatabase($hostname,$user,$password,$log);
+    initializeDatabase($log);
 }
 else if ($argv[1] == "reset") { // The user can also add the argument reset to reset the database
-    resetDatabase($hostname,$user,$password,$log);
+    resetDatabase($log);
 }
 ?>
