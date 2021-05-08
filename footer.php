@@ -10,7 +10,7 @@
 
 <?php
     // Display any feedback from the server requests to the user
-    if (isset($_SESSION['output']) && $_SESSION['output'] != "") {
+    if (isset($_SESSION['output'])) {
         echo "<script>showOutput(\"".$_SESSION['output']."\",\"".$_SESSION['outputType']."\")</script>";
         unset($_SESSION['output']);
         unset($_SESSION['outputType']);
