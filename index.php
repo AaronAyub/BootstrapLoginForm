@@ -26,7 +26,7 @@
                     $_SESSION['output'] = "Successfully logged in.";
                     $_SESSION['outputType'] = "success";
                     $_SESSION['user'] = $username;
-                    $connection->close();
+                    session_write_close();
                     header('Location: settings.php');
                 }
                 else {

@@ -48,7 +48,7 @@ function connect() {
     if ($connection->connect_error) {
         die("Connection unsuccessful!" . $connection->connect_error);
     }
-    fwrite($GLOBALS['log'],"Connection successful.\n");
+    // fwrite($GLOBALS['log'],"Connection successful.\n");
     return $connection;
 }
 
@@ -72,7 +72,7 @@ function resetDatabase($log) {
 if (isset($argc) && $argc < 2) {
     initializeDatabase($log);
 }
-else if ($argv[1] == "reset") { // The user can also add the argument reset to reset the database
+else if (isset($argv) && $argv[1] == "reset") { // The user can also add the argument reset to reset the database
     resetDatabase($log);
 }
 ?>

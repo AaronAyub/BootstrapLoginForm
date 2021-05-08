@@ -37,7 +37,7 @@
                 $_SESSION['output'] = "User successfully added!";
                 $_SESSION['outputType'] = "success";
                 $_SESSION['user'] = $username;
-                $connection->close();
+                session_write_close(); // Write session data before redirecting
                 header('Location: settings.php');
             }
             else {
