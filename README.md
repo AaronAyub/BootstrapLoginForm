@@ -4,10 +4,12 @@ A simple login and registration form made to demonstrate PHP and MySQL. Javascri
 ## Current Features
 - Bootstrap frontend displaying multiple forms related to user management.
 - Users can register for a new account, with checks to make sure fields aren't blank, passwords match, etc
-- A listing is of all registered users is available.
+- A listing is of all registered users is available. Links to the profiles of users are available.
+- The profiles of users can be viewed, which shows any optional, publically available information.
 - Users can authenticate to view a settings panel. They can change their personal information, email, and password.
 - Checks are done both client-side, and also server-side to ensure users enter valid information.
 - Passwords are hashed and salted, not stored in plain-text.
+- Header allows for quicker navigation to pages, changing depending on whether the user is logged in or not.
 
 ## Running this program
 This website relies on a MySQL to host a database of users. To test this out, SQL must be running, with a username and password entered for an SQL user with permission to create, select, and insert to databases.

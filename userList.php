@@ -27,7 +27,7 @@
         // Print out a table row for each user
         while ($user = $query->fetch_assoc()) {
             echo "<tr>";
-            echo "<td scope=\"row\">".$user["username"]."</td>";
+            echo "<td scope=\"row\"><a href=\"user.php?user=".$user['username']."\">".$user["username"]."</td>";
             echo "<td>".$user["firstname"]." ".$user["lastname"]."</td>";
             echo "<td>".$user["loc"]."</td>";
             echo "<td>".$user["job"]."</td>";

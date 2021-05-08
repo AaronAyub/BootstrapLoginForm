@@ -15,13 +15,12 @@
             </div>
             
             <div id="nav-right">
-            <div>
                 <?php
                 if (isset($_SESSION['user'])) {
-                    echo "<a href=\"settings.php\">Your Profile</a>";
+                    echo "<div><a href=\"user.php?user=".$_SESSION['user']."\">Your Profile</a></div>";
+                    echo "<div><a href=\"settings.php\">Settings</a></div>";
                 }
                 ?>
-            </div>
             <!-- This div switches between the login/logout button in the header-->
             <div>
             <?php

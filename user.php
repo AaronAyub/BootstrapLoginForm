@@ -15,18 +15,18 @@ $request = $_REQUEST['user']; // The user being searched for
 
 $query = "SELECT * FROM users WHERE username='$request'";
 $query = $connection->query($query);
-if ($query->num_rows == 0) {
+if ($query->num_rows == 0) { // If there is no matching user
     $_SESSION['output'] = "The user named ".$user." is not registered! Please try again.";
 }
-else {
+else { // Otherwise, display the user's public details
     $user = $query->fetch_assoc();
     $realname = $user['firstname']." ".$user['lastname'] != "   " ? $user['firstname']." ".$user['lastname'] : "Not specified";
     $loc = $user['loc'] != " " ? $user['loc'] : "Not specified";
     $job = $user['job'] != " " ? $user['job'] : "Not specified";
     echo "<div class=\"container text-center\"><h3>Profile of ".$request."</h3></div>";
-    echo "<h4>Real name</h4>".$realname;
-    echo "<h4>Location</h4>".$loc;
-    echo "<h4>Occupation</h4>".$job;
+    echo "<h4 class=\"spaced\">Real name</h4>".$realname;
+    echo "<h4 class=\"spaced\">Location</h4>".$loc;
+    echo "<h4 class=\"spaced\">Occupation</h4>".$job;
 }
 
 $connection->close();

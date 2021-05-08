@@ -35,6 +35,10 @@
     /* font-size: small; */
 }
 
+.spaced {/* Class to add some vertical spacing between elements*/
+    margin-top: 1rem;
+}
+
 #outputbox {
     display: none; /* Hide the output box by default*/
     background-color: #ffc8c8; /* By default, the colour used is for errors*/
