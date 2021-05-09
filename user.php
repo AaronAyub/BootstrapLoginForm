@@ -24,9 +24,9 @@ if ($result->num_rows == 0) { // If there is no matching user
 }
 else { // Otherwise, display the user's public details
     $user = $result->fetch_assoc();
-    $realname = $user['firstname']." ".$user['lastname'] != "   " ? $user['firstname']." ".$user['lastname'] : "Not specified";
-    $loc = $user['loc'] != " " ? $user['loc'] : "Not specified";
-    $job = $user['job'] != " " ? $user['job'] : "Not specified";
+    $realname = $user['firstname']." ".$user['lastname'] != " " ? $user['firstname']." ".$user['lastname'] : "Not specified";
+    $loc = $user['loc'] != "" ? $user['loc'] : "Not specified";
+    $job = $user['job'] != "" ? $user['job'] : "Not specified";
     echo "<div class=\"container text-center\"><h3>Profile of ".$request."</h3></div>";
     echo "<h4 class=\"spaced\">Real name</h4>".$realname;
     echo "<h4 class=\"spaced\">Location</h4>".$loc;
