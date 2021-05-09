@@ -26,23 +26,30 @@
             $username = $_POST['username'];
             $email = $_POST['email'];
             $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
-            $add = "INSERT INTO users (username, email, pass)
-            VALUES ('$username', '$email', '$password')";
-            $query = "SELECT username FROM users WHERE username='$username'";
-            $query = $connection->query($query);
-            if ($query->num_rows > 0) {
+            $st = $connection->prepare("SELECT username FROM users WHERE username=?");
+            $st->bind_param("s",$username);
+            $st->execute();
+            if ($st->get_result()->num_rows != 0) { // If the username is taken
                 $_SESSION['output'] = "Sorry, the username $username is already taken!";
             }
-            else if ($connection->query($add) === TRUE) {
-                $_SESSION['output'] = "User successfully added!";
-                $_SESSION['outputType'] = "success";
-                $_SESSION['user'] = $username;
-                session_write_close(); // Write session data before redirecting
-                header('Location: settings.php');
-            }
             else {
-                fwrite($log,"Can't create user!\n" . mysqli_error($connection));
+                $st->close();
+                $st = $connection->prepare("INSERT INTO users (username, email, pass) VALUES (?,?,?)");
+                $st->bind_param("sss",$username,$email,$password);
+                if ($st->execute()) {
+                    $_SESSION['output'] = "User successfully added!";
+                    $_SESSION['outputType'] = "success";
+                    $_SESSION['user'] = $username;
+                    session_write_close(); // Write session data before redirecting
+                    header('Location: settings.php');
+                }
+                else { // If the username is free, but the query was unsuccessful
+                    $_SESSION['output'] = "Couldn't create user!";
+                    fwrite($log,"Can't create user!\n" . mysqli_error($connection));
+                }
             }
+            
+            $st->close();
         }
     }
     $connection->close();

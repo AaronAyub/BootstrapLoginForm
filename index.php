@@ -15,18 +15,17 @@
             $_SESSION['output'] = $_SESSION['output'] . "Please enter a password!";
         }
         else {
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-
-            $query = "SELECT pass FROM users WHERE username='$username'";
-            $query = $connection->query($query);
-            if ($query->num_rows == 1) {
-                $user = $query->fetch_assoc();
-                if (password_verify($password,$user["pass"])) {
+            $st = $connection->prepare("SELECT pass FROM users WHERE username=?");
+            $st->bind_param("s",$_POST['username']);
+            $st->execute();
+            $result = $st->get_result();
+            if ($result->num_rows == 1) {
+                $user = $result->fetch_assoc();
+                if (password_verify($_POST['password'],$user["pass"])) {
                     $_SESSION['output'] = "Successfully logged in.";
                     $_SESSION['outputType'] = "success";
-                    $_SESSION['user'] = $username;
-                    session_write_close();
+                    $_SESSION['user'] = $_POST['username'];
+                    session_write_close(); // Write session data before redirecting
                     header('Location: settings.php');
                 }
                 else {
@@ -36,6 +35,7 @@
             else {
                 $_SESSION['output'] = "No such user exists.";
             }
+            $st->close();
         }
     }
     // User logs out

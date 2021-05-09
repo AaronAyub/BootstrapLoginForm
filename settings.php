@@ -15,16 +15,17 @@
             $newemail = $_POST['newemail'];
 
             // Update the record with the new email address
-            $query = "UPDATE users SET email='$newemail' WHERE username='$username'";
-            $query = $connection->query($query);
-            
-            if ($query) {
+            $st = $connection->prepare("UPDATE users SET email=? WHERE username=?");
+            $st->bind_param("ss",$newemail,$username);
+
+            if ($st->execute()) {
                 $_SESSION['output'] = "Changed email address!";
                 $_SESSION['outputType'] = "success";
             }
             else {
                 fwrite($log,mysqli_error($connection)."\n");
             }
+            $st->close();
         }
     }
     // User changes the account's password
@@ -38,12 +39,12 @@
             $newconfirm = $_POST['newconfirm'];
             $username = $_SESSION['user'];
 
-            $query = "SELECT pass FROM users WHERE username='$username'";
-            $query = $connection->query($query);
+            $st = $connection->prepare("SELECT pass FROM users WHERE username=?");
+            $st->bind_param("s",$username);
 
-            // If this user exists, firt check that the old password matches, then check that the new password is confirmed correctly.
-            if ($query) {
-                if (!password_verify($oldpass,$query->fetch_assoc()['pass'])) {
+            // If this user exists, first check that the old password matches, then check that the new password is confirmed correctly.
+            if ($st->execute()) {
+                if (!password_verify($oldpass,$st->get_result()->fetch_assoc()['pass'])) {
                     $_SESSION['output'] = "Please enter your old password correctly.";
                 }
                 else if ($newpass != $newconfirm) {
@@ -54,13 +55,16 @@
                     $_SESSION['output'] = "Password changed!";
                     $_SESSION['outputType'] = "success";
                     $new = password_hash($newpass,PASSWORD_DEFAULT);
-                    $query = "UPDATE users SET pass='$new' WHERE username='$username'";
-                    $query = $connection->query($query);
+                    $st->close();
+                    $st = $connection->prepare("UPDATE users SET pass=? WHERE username=?");
+                    $st->bind_param("ss",$new,$username);
+                    $st->execute();
                 }
             }
             else {
                 fwrite($log,mysqli_error($connection)."\n");
             }
+            $st->close();
         }
     }
     // User updates public details
@@ -71,10 +75,10 @@
         $job = $_POST['job'];
         $username = $_SESSION['user'];
 
-        $query = "UPDATE users SET
-        firstname='$firstname', lastname='$lastname', loc='$loc', job='$job'
-        WHERE username='$username'";
-        $query = $connection->query($query);
+        $st = $connection->prepare("UPDATE users SET firstname=?,lastname=?,loc=?,job=? WHERE username=?");
+        $st->bind_param("sssss",$firstname,$lastname,$loc,$job,$username);
+        $st->execute();
+        $st->close();
         $_SESSION['output'] = "Profile updated!";
         $_SESSION['outputType'] = "success";
     }
@@ -83,17 +87,22 @@
     $username = $_SESSION['user'];
     $query = "SELECT * FROM users WHERE username='$username'";
     $query = $connection->query($query);
-    if ($query->num_rows == 0) {
+    $st = $connection->prepare("SELECT * FROM users WHERE username=?");
+    $st->bind_param("s",$username);
+    $st->execute();
+    $result = $st->get_result();
+    if ($result->num_rows == 0) {
         $_SESSION['output'] = "You shouldn't be accessing this form unless you are logged in.";
     }
     else {
-        $user = $query->fetch_assoc();
+        $user = $result->fetch_assoc();
         $firstname = $user['firstname'];
         $lastname = $user['lastname'];
         $loc = $user['loc'];
         $job = $user['job'];
+        $email = $user['email'];
     }
-
+    $st->close();
     $connection->close();
 ?>
 <?php include 'header.php'?>
@@ -185,4 +194,5 @@ echo "<script>document.getElementById(\"firstname\").value = \"".$firstname."\";
 echo "<script>document.getElementById(\"lastname\").value = \"".$lastname."\";</script>";
 echo "<script>document.getElementById(\"loc\").value = \"".$loc."\";</script>";
 echo "<script>document.getElementById(\"job\").value = \"".$job."\";</script>";
+echo "<script>document.getElementById(\"newemail\").value = \"".$email."\";</script>";
 ?>

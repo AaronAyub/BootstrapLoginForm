@@ -9,9 +9,10 @@
 <?php include 'header.php'?>
 <div class="container">
 <?php
-    $query = "SELECT * FROM users";
-    $query = $connection->query($query);
-    if ($query->num_rows > 0) { // If there are any users, print out a table
+    $st = $connection->prepare("SELECT * FROM users");
+    $st->execute();
+    $result = $st->get_result();
+    if ($result->num_rows > 0) { // If there are any users, print out a table
         echo <<< EOT
         <table class="table">
             <thead>
@@ -25,7 +26,7 @@
             <tbody>
         EOT;
         // Print out a table row for each user
-        while ($user = $query->fetch_assoc()) {
+        while ($user = $result->fetch_assoc()) {
             echo "<tr>";
             echo "<td scope=\"row\"><a href=\"user.php?user=".$user['username']."\">".$user["username"]."</td>";
             echo "<td>".$user["firstname"]." ".$user["lastname"]."</td>";
@@ -39,6 +40,7 @@
     else { // If there are no users
         echo "There are no users registered yet!";
     }
+    $st->close();
     $connection->close();
 ?>
 </div>

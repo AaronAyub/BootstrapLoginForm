@@ -57,11 +57,11 @@ function resetDatabase($log) {
     // Connect to the database
     $connection = connect();
 
-    $connection->query("DROP DATABASE IF EXISTS loginForm");
-    if ($connection) {
+    $st = $connection->prepare("DROP DATABASE IF EXISTS loginForm");
+    if ($st->execute()) {
         fwrite($log,"Dropped database successfully.\n");
     }
-
+    $st->close();
     $connection->close();
 
     // And recreate the database
