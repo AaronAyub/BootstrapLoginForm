@@ -29,7 +29,13 @@
             $st = $connection->prepare("SELECT username FROM users WHERE username=?");
             $st->bind_param("s",$username);
             $st->execute();
-            if ($st->get_result()->num_rows != 0) { // If the username is taken
+            if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
+                $_SESSION['output'] = "Please enter a valid email address.";
+            }
+            else if (!preg_match('/^[a-zA-Z0-9 _\-]+$/',$username)) {
+                $_SESSION['output'] = "Please enter a valid username. You may use any alphanumeric characters, spaces, underscores, and dashes.";
+            }
+            else if ($st->get_result()->num_rows != 0) { // If the username is taken
                 $_SESSION['output'] = "Sorry, the username $username is already taken!";
             }
             else {

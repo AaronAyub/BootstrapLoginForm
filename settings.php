@@ -69,10 +69,10 @@
     }
     // User updates public details
     else if (isset($_POST['updateProfile'])) {
-        $firstname = $_POST['firstname'];
-        $lastname = $_POST['lastname'];
-        $loc = $_POST['loc'];
-        $job = $_POST['job'];
+        $firstname = htmlspecialchars($_POST['firstname']);
+        $lastname = htmlspecialchars($_POST['lastname']);
+        $loc = htmlspecialchars($_POST['loc']);
+        $job = htmlspecialchars($_POST['job']);
         $username = $_SESSION['user'];
 
         $st = $connection->prepare("UPDATE users SET firstname=?,lastname=?,loc=?,job=? WHERE username=?");
