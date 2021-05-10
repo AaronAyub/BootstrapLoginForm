@@ -95,13 +95,30 @@
                 </div>
                 <div class="form-group form-check">
                     <input required type="checkbox" name="readTerms" class="form-check-input" id="conditions">
-                    <label class="form-check-label" for="conditions">I have read and agree to the Terms and
-                        Conditions</label>
+                    <label class="form-check-label" for="conditions">I have read and agree to the </label>
+                    <span data-bs-toggle="modal" data-bs-target="#termsModal" style="color: blue">Terms and Conditions</span>
                 </div>
                 <button type="submit" name="register" class="btn btn-primary">Register</button>
             </form>
             <hr>
             <a href="index.php" class="btn btn-secondary">Sign In</a>
+        </div>
+    </div>
+</div>
+<!-- The modal or window which appears to display the terms and conditions to the user-->
+<div id="termsModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Terms and Conditions</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                This is just a demo website. There aren't any terms to agree to. Feel free to edit your user details after registering.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
