@@ -6,7 +6,7 @@ A simple login and registration form made to demonstrate PHP and MySQL. Javascri
 - Users can register for a new account, with checks to make sure fields aren't blank, passwords match, etc
 - A listing is of all registered users is available. Links to the profiles of users are available.
 - The profiles of users can be viewed, which shows any optional, publically available information.
-- Users can authenticate to view a settings panel. They can change their personal information, email, and password.
+- Users can authenticate to view a settings panel. They can change their personal information, email, and password. They can also delete their own account.
 - Checks are done both client-side, and also server-side to ensure users enter valid information.
 - Passwords are hashed and salted, not stored in plain-text.
 - Header allows for quicker navigation to pages, changing depending on whether the user is logged in or not.

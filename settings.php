@@ -81,6 +81,36 @@
         $st->close();
         $_SESSION['output'] = "Profile updated!";
         $_SESSION['outputType'] = "success";
+    } // User deletes the account
+    else if (isset($_POST['deleteAccount'])) {
+        $password = $_POST['pass'];
+        $username = $_SESSION['user'];
+
+        $st = $connection->prepare("SELECT pass FROM users WHERE username=?");
+        $st->bind_param("s",$username);
+        if ($st->execute()) { // If the currently logged in user exists (should pass)
+            if (!password_verify($password,$st->get_result()->fetch_assoc()['pass'])) { // Check that the password is correct
+                $_SESSION['output'] = "Please enter your password correctly.";
+            }
+            else { // Otherwise, delete the account
+                $st->close();
+                $st = $connection->prepare("DELETE FROM users WHERE username=?");
+                $st->bind_param("s",$username);
+                
+                if ($st->execute()) {
+                    $_SESSION['output'] = "Your account has been deleted.";
+                    $_SESSION['outputType'] = "success";
+                    unset($_SESSION['user']); // Log the user out as well
+                    session_write_close(); // Write session data before redirecting
+                    header('Location: index.php');
+                }
+                else {
+                    $_SESSION['output'] = "Something unexpected happened. Please contact the administrator.";
+                }
+                $st->close();
+            }
+        }
+        $st->close();
     }
 
     // Return details of the user's profile, so they can enter only the information that needs to be changed.
@@ -115,6 +145,9 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="emailPassTab" data-bs-toggle="tab" data-bs-target="#emailPass" type="button" role="tab" aria-controls="emailPass" aria-selected="false">Email / Password</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="deleteTab" data-bs-toggle="tab" data-bs-target="#delete" type="button" role="tab" aria-controls="delete" aria-selected="false">Delete Account</button>
             </li>
         </ul>
         <div class="tab-content">
@@ -178,6 +211,16 @@
                             placeholder="Confirm New Password">
                     </div>
                     <button type="submit" name="changepass" class="btn btn-primary">Change Password</button>
+                </form>
+            </div>
+            <div class="card-body tab-pane fade" id="delete" role="tabpanel" aria-labelledby="deleteTab">
+            You may delete your account here. If you do so, your username will be made available for other users to register under. You will have to enter your password to confirm deleting your account.
+                <form method="post">
+                    <div class="form-group">
+                    <label for="pass">Enter Password</label>
+                        <input required type="password" name="pass" id="pass" class="form-control" placeholder="Enter your password">
+                    </div>
+                    <button type="submit" name="deleteAccount" class="btn btn-danger">Delete Account</button>
                 </form>
             </div>
         </div>
