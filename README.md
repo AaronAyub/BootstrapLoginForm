@@ -11,6 +11,7 @@ A simple login and registration form made to demonstrate PHP and MySQL. Javascri
 - Passwords are hashed and salted, not stored in plain-text.
 - Header allows for quicker navigation to pages, changing depending on whether the user is logged in or not.
 - SQL statements are prepared to prevent SQL injections. Inputs are validated and sanitized to prevent attacks.
+- Admin users can also exist. Admins can currently delete user accounts.
 
 ## Running this program
 This website relies on a MySQL to host a database of users. To test this out, SQL must be running, with a username and password entered for an SQL user with permission to create, select, and insert to databases.

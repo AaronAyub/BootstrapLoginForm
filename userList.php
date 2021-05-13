@@ -8,6 +8,7 @@
 
 <?php include 'header.php'?>
 <div class="container">
+<div id="outputbox"></div>
 <?php
     $isAdmin = false; // Marked true if the currently signed in user is an admin.
     // Give the session the admin buttons if the user is an admin.
@@ -21,6 +22,21 @@
         }
         $st->close();
     }
+    // If a user is to be deleted
+    if (isset($_POST['deleteUser']) && $isAdmin) {
+        $st = $connection->prepare("DELETE FROM users WHERE username=?");
+        $st->bind_param("s",$_POST['deleteUser']);
+        if ($st->execute()){
+            $_SESSION['output'] = "User deleted!";
+            $_SESSION['outputType'] = "success";
+        }
+        else {
+            $_SESSION['output'] = "Something went wrong.";
+        }
+        $st->close();
+    }
+
+    // Now display the table
     $st = $connection->prepare("SELECT * FROM users");
     $st->execute();
     $result = $st->get_result();
@@ -50,7 +66,7 @@
             echo "<td>".$user["loc"]."</td>";
             echo "<td>".$user["job"]."</td>";
             if ($isAdmin) {
-                echo "<td>Delete User</td>";
+                echo "<td><form method=\"post\"><button name=\"deleteUser\" value=\"".$user['username']."\" class=\"btn btn-sm btn-danger\">Delete User</button></form></td>";
             }
             echo "</tr>";
         }
