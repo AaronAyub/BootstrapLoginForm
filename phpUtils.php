@@ -34,11 +34,18 @@ function initializeDatabase($log) {
         lastname VARCHAR(80) DEFAULT '',
         loc VARCHAR(80) DEFAULT '',
         job VARCHAR(80) DEFAULT '',
+        account VARCHAR(32) DEFAULT 'user',
         registered TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )";
     if ($connection->query($users) === TRUE) {
         fwrite($log,"User table created.\n");
     }
+    // Add an admin account. For this test, the admin will be called "admin" with the password "password".
+    $password = password_hash("password",PASSWORD_DEFAULT);
+    $st = $connection->prepare("INSERT INTO users (username,email,pass,account) VALUES ('admin','',?,'admin')");
+    $st->bind_param("s",$password);
+    $st->execute();
+    $st->close();
     $connection->close();
 }
 
