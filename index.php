@@ -25,6 +25,17 @@
                     $_SESSION['output'] = "Successfully logged in.";
                     $_SESSION['outputType'] = "success";
                     $_SESSION['user'] = $_POST['username'];
+                    // If the user wants to be remember, create persistent session in the database, and a give the user a session token
+                    if (isset($_POST['remember'])) {
+                        $st->close();
+                        // Make an entry in the logins table to save this login
+                        $token = bin2hex(random_bytes(64));
+                        $st = $connection->prepare("INSERT INTO logins (token, username) VALUES (?,?)");
+                        $st->bind_param("ss",$token,$_POST['username']);
+                        $st->execute();
+                        // And add that token as a cookie
+                        setcookie("session_token",$token,time() + (86400 * 14), "."); // Keep the user logged in for 14 days
+                    }
                     session_write_close(); // Write session data before redirecting
                     header('Location: settings.php');
                 }

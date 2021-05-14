@@ -40,6 +40,18 @@ function initializeDatabase($log) {
     if ($connection->query($users) === TRUE) {
         fwrite($log,"User table created.\n");
     }
+    $logins = "CREATE TABLE logins (
+        token VARCHAR(128) NOT NULL PRIMARY KEY,
+        username VARCHAR(50) NOT NULL,
+        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (username) REFERENCES users (username)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
+    )";
+    if ($connection->query($logins) === TRUE) {
+        fwrite($log,"Logins table created.\n");
+    }
+
     // Add an admin account. For this test, the admin will be called "admin" with the password "password".
     $password = password_hash("password",PASSWORD_DEFAULT);
     $st = $connection->prepare("INSERT INTO users (username,email,pass,account) VALUES ('admin','',?,'admin')");
@@ -51,6 +63,7 @@ function initializeDatabase($log) {
 
 // Returns a connection to the database
 function connect() {
+    // Now connect to the database
     $connection = new mysqli($GLOBALS['hostname'], $GLOBALS['user'], $GLOBALS['password'], "loginForm");
     if ($connection->connect_error) {
         die("Connection unsuccessful!" . $connection->connect_error);
