@@ -34,7 +34,7 @@
                         $st->bind_param("ss",$token,$_POST['username']);
                         $st->execute();
                         // And add that token as a cookie
-                        setcookie("session_token",$token,time() + (86400 * 14), "."); // Keep the user logged in for 14 days
+                        setcookie("session_token",$token,time() + (86400 * 14)); // Keep the user logged in for 14 days
                     }
                     session_write_close(); // Write session data before redirecting
                     header('Location: settings.php');
@@ -54,6 +54,17 @@
         $_SESSION['output'] = "Logged out!";
         $_SESSION['outputType'] = "success";
         unset($_SESSION['user']);
+
+        // Remove the cookie from the server's database
+        if (isset($_COOKIE['session_token'])) {
+            $st = $connection->prepare("DELETE FROM logins WHERE token=?");
+            $st->bind_param("s",$_COOKIE['session_token']);
+            $st->execute();
+            $st->close();
+        }
+
+        setcookie("session_token","",time() - 1); // Remove the cookie from the user's side too.
+
     }
     $connection->close();
 ?>

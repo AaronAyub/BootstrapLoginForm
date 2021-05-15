@@ -72,6 +72,10 @@ function connect() {
     return $connection;
 }
 
+// function initSession() {
+//     session_start();
+// }
+
 // This function deletes the database and recreates it, essentially resetting all the data
 function resetDatabase($log) {
     // Connect to the database
