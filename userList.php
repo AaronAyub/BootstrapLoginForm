@@ -1,9 +1,9 @@
 <?php
     // Connecting to database
-    session_start();
     $log = fopen("php://stdout", "w");
     include 'phpUtils.php';
     $connection = connect();
+    initSession($connection);
 ?>
 
 <?php include 'header.php'?>

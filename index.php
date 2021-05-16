@@ -1,9 +1,9 @@
 <?php
     // Connecting to database
-    session_start();
     $log = fopen("php://stdout", "w");
     include 'phpUtils.php';
     $connection = connect();
+    initSession($connection);
 
     // If the user makes a request to the server
     // User logs in
@@ -65,6 +65,9 @@
 
         setcookie("session_token","",time() - 1); // Remove the cookie from the user's side too.
 
+    }
+    else if (isset($_SESSION['user'])) { // If the user is logged in, but no post fields are set, then they likely revisited the site with a cookie, so redirect to the settings page.
+        header('Location: settings.php');
     }
     $connection->close();
 ?>

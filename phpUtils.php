@@ -72,9 +72,25 @@ function connect() {
     return $connection;
 }
 
-// function initSession() {
-//     session_start();
-// }
+// Manages session variables, called at the start of every webpage. This makes sure the user is logged in.
+function initSession($connection) {
+    session_start();
+    if (isset($_SESSION['user'])) return; // If the user is logged in already, nothing needs to be done
+    // Otherwise, try to log in through the user's session token cookie
+    if (isset($_COOKIE['session_token'])) {
+        $st = $connection->prepare("SELECT username FROM logins WHERE token=?");
+        $st->bind_param("s",$_COOKIE['session_token']);
+        if ($st->execute()) {
+            $result = $st->get_result();
+            if ($result->num_rows == 0) { // If this token is not in the database, then remove it from the user's side
+                setcookie("session_token","",time() - 1);
+            }
+            else { // Otherwise, this log the user in
+                $_SESSION['user'] = $result->fetch_assoc()['username'];
+            }
+        }
+    }
+}
 
 // This function deletes the database and recreates it, essentially resetting all the data
 function resetDatabase($log) {
