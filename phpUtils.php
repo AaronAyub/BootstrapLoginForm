@@ -51,6 +51,23 @@ function initializeDatabase($log) {
     if ($connection->query($logins) === TRUE) {
         fwrite($log,"Logins table created.\n");
     }
+    $posts = "CREATE TABLE posts (
+        id INT(64) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        poster VARCHAR(50),
+        isGuest BOOLEAN DEFAULT 0,
+        recipient VARCHAR(50) NOT NULL,
+        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        contents VARCHAR(4096) NOT NULL,
+        FOREIGN KEY (recipient) REFERENCES users (username)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+        FOREIGN KEY (poster) REFERENCES users (username)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
+    )";
+    if ($connection->query($posts) === TRUE) {
+        fwrite($log,"Posts table created.\n");
+    }
 
     // Add an admin account. For this test, the admin will be called "admin" with the password "password".
     $password = password_hash("password",PASSWORD_DEFAULT);
