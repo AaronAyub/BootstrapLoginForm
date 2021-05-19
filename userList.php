@@ -50,7 +50,7 @@
                     <th>Location</th>
                     <th>Occupation</th>
         EOT;
-        if ($isAdmin == true) { // To be implemented
+        if ($isAdmin == true) {
             echo "<th>Delete User</th>";
         }
         echo <<< EOT
@@ -66,7 +66,12 @@
             echo "<td>".$user["loc"]."</td>";
             echo "<td>".$user["job"]."</td>";
             if ($isAdmin) {
-                echo "<td><form method=\"post\"><button name=\"deleteUser\" value=\"".$user['username']."\" class=\"btn btn-sm btn-danger\">Delete User</button></form></td>";
+                if ($user['account'] == "admin") { // Admin accounts can't be deleted
+                    echo "<td><button name=\"deleteUser\" value=\"".$user['username']."\" class=\"btn btn-sm btn-dark disabled\">Delete User</button></td>";
+                }
+                else {
+                    echo "<td><form method=\"post\"><button name=\"deleteUser\" value=\"".$user['username']."\" class=\"btn btn-sm btn-danger\">Delete User</button></form></td>";
+                }
             }
             echo "</tr>";
         }
