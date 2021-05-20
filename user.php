@@ -74,12 +74,13 @@ else { // Otherwise, display the user's public details
     else { // Otherwise, display all messages
         while ($post = $result->fetch_assoc()) {
             if ($post['isGuest']) { // If this is a guest message
-                echo "From: Guest<br>";
+                $poster = "Guest";
             }
             else { // Otherwise, this is from a registered user
-                echo "From: ".$post['poster']."<br>";
+                $poster = $post['poster'];
             }
-            echo $post['contents']."<br>";
+            echo "<div class=\"post\"><div style=\"display: flex; justify-content: space-between\"><div>From: ".$poster."</div><div>".$post['created']."</div></div>";
+            echo $post['contents']."</div>";
         }
     }
     echo "<form id=\"addpost\" method=\"post\" action=\"user.php?user=".$request."\">";

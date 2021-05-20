@@ -51,3 +51,11 @@
 #outputbox.success {
     background-color: #bcffbc; /* Use a different colour on successes */
 }
+
+.post {
+    border:1px solid black;
+    margin-bottom:0.5rem;
+    padding-left:0.5rem;
+    padding-right:1rem;
+    border-radius:0.5rem;
+}
